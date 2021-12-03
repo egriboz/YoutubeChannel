@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import Image from "next/image";
+import Link from "next/link";
 import styles from "../styles/Home.module.css";
 import { IoCloseOutline } from "react-icons/io5";
 import { BiLoaderAlt } from "react-icons/bi";
 
 const YOUTUBE_SEARCH_URL = "https://www.googleapis.com/youtube/v3/search";
+
 export async function getStaticProps() {
   const res = await fetch(
-    `${YOUTUBE_SEARCH_URL}?key=${process.env.YOUTUBE_API_KEY}&channelId=${process.env.YOUTUBE_CHANNEL_ID}&part=snippet,id&order=date&maxResults=100`
+    `${YOUTUBE_SEARCH_URL}?key=${process.env.YOUTUBE_API_KEY}&channelId=${process.env.YOUTUBE_CHANNEL_ID}&part=snippet,id&type=video&order=date&maxResults=120`
   );
   const data = await res.json();
 
@@ -26,29 +28,29 @@ const Home = ({ data }) => {
   const [videoLoading, setVideoLoading] = useState(true);
   const openModal = (e) => {
     setModal(!modal);
-    console.log("open modal");
+    //console.log("open modal");
     const videoId = e.currentTarget.getAttribute("data-id");
     setVideoId(videoId);
-    console.log(videoId);
+    //console.log(videoId);
     // return video;
   };
   const closeModal = () => {
     setModal(false);
-    console.log("close modal");
+    //console.log("close modal");
   };
   const spinner = () => {
     setVideoLoading(!videoLoading);
   };
 
   useEffect(() => {
-    console.log("data", data.items);
+    //console.log("data", data.items);
   }, [data]);
 
   useEffect(() => {
-    console.log("videoId", videoId);
+    //console.log("videoId", videoId);
   }, [modal]);
 
-  //console.log("data", data.items)
+  console.log("data", data.items);
   return (
     <div className={styles.container}>
       <Head>
@@ -58,7 +60,7 @@ const Home = ({ data }) => {
       </Head>
 
       <main>
-        <h1>Next.js</h1>
+        <h1>Youtube Channel with Next.js</h1>
 
         {modal ? (
           <section className="modal__bg">
@@ -85,7 +87,7 @@ const Home = ({ data }) => {
                     loading="lazy"
                     width="800"
                     height="500"
-                    src={`https://www.youtube.com/embed/${videoId}`}
+                    src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0&enablejsapi=1`}
                     title="YouTube video player"
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -96,6 +98,7 @@ const Home = ({ data }) => {
             </div>
           </section>
         ) : null}
+
         <section>
           {data.items.map((item, index) => {
             //console.log("item:", {item})
@@ -106,19 +109,34 @@ const Home = ({ data }) => {
             const kind = item.id.kind;
             const title = item.snippet.title;
 
-            const th = item.snippet.thumbnails.default.url;
+            const th = item.snippet.thumbnails.high.url;
             const etag = item.etag;
             //console.log("etag:", etag)
             //console.log("id:", id)
             //const {videoId} = item.id.videoId;
             return (
-              <div style={{ border: "1px solid gray" }} key={etag}>
-                {index}-{title}
-                <img src={th} />
+              <div style={{ padding: "10px 20px" }} key={id}>
+                <p>
+                  {index}-{title} - Video Id "{id}"
+                </p>
+                <p>
+                  <img src={th} />
+                </p>
                 {/* video */}
-                <button onClick={openModal} data-id={id} className="">
-                  Click Me! {id}
-                </button>
+                <div style={{ display: "flex" }}>
+                  <p>
+                    <button onClick={openModal} data-id={id} className="">
+                      Open Modal
+                    </button>
+                  </p>
+                  <p>
+                    <Link href={`/video/${id}`}>
+                      <a>
+                        <button>Go to Page</button>
+                      </a>
+                    </Link>
+                  </p>
+                </div>
                 {/* video end */}
               </div>
             );
