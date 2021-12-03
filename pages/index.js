@@ -6,11 +6,9 @@ import { IoCloseOutline } from "react-icons/io5";
 import { BiLoaderAlt } from "react-icons/bi";
 
 const YOUTUBE_SEARCH_URL = "https://www.googleapis.com/youtube/v3/search";
-const YOUTUBE_API_KEY = "AIzaSyDsxa8ClmhlXWtSW7iqXHUAIwuUU3osALA";
-const YOUTUBE_CHANNEL_ID = "UCW9eGwa-9w1Fwp8qF7pZhjA";
 export async function getStaticProps() {
   const res = await fetch(
-    `${YOUTUBE_SEARCH_URL}?key=${YOUTUBE_API_KEY}&channelId=${YOUTUBE_CHANNEL_ID}&part=snippet,id&order=date&maxResults=100`
+    `${YOUTUBE_SEARCH_URL}?key=${process.env.YOUTUBE_API_KEY}&channelId=${process.env.YOUTUBE_CHANNEL_ID}&part=snippet,id&order=date&maxResults=100`
   );
   const data = await res.json();
 
