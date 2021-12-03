@@ -14,7 +14,9 @@ a {
 * {
   box-sizing: border-box;
 }
-
+.error-quota a {
+  color: red;
+}
 /* */
 .modal__bg {
   position: fixed;

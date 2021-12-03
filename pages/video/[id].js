@@ -6,7 +6,7 @@ const YOUTUBE_GET_VIDEO_URL = "https://www.googleapis.com/youtube/v3/videos";
 
 export async function getStaticPaths() {
   const response = await fetch(
-    `${YOUTUBE_SEARCH_URL}?key=${process.env.YOUTUBE_API_KEY}&channelId=${process.env.YOUTUBE_CHANNEL_ID}&part=snippet,id&type=video&order=date&maxResults=120`
+    `${YOUTUBE_SEARCH_URL}?key=${process.env.YOUTUBE_API_KEY}&channelId=${process.env.YOUTUBE_CHANNEL_ID}&part=snippet,id&type=video&order=date&maxResults=15`
   );
   const data = await response.json();
   return {

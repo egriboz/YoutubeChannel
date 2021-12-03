@@ -10,10 +10,9 @@ const YOUTUBE_SEARCH_URL = "https://www.googleapis.com/youtube/v3/search";
 
 export async function getStaticProps() {
   const res = await fetch(
-    `${YOUTUBE_SEARCH_URL}?key=${process.env.YOUTUBE_API_KEY}&channelId=${process.env.YOUTUBE_CHANNEL_ID}&part=snippet,id&type=video&order=date&maxResults=120`
+    `${YOUTUBE_SEARCH_URL}?key=${process.env.YOUTUBE_API_KEY}&channelId=${process.env.YOUTUBE_CHANNEL_ID}&part=snippet,id&type=video&order=date&maxResults=15`
   );
   const data = await res.json();
-
   return {
     props: {
       data,
@@ -50,7 +49,8 @@ const Home = ({ data }) => {
     //console.log("videoId", videoId);
   }, [modal]);
 
-  console.log("data", data.items);
+  const errorMessage = data.error.message;
+  console.log("data", errorMessage);
   return (
     <div className={styles.container}>
       <Head>
@@ -100,47 +100,57 @@ const Home = ({ data }) => {
         ) : null}
 
         <section>
-          {data.items.map((item, index) => {
-            //console.log("item:", {item})
-            //console.log("video id:", item.id.videoId)
+          {data.error.message && (
+            <>
+              <p style={{ color: "red" }}>Error Message</p>
+              <p
+                class="error-quota"
+                dangerouslySetInnerHTML={{ __html: errorMessage }}
+              />
+            </>
+          )}
+          {!data.error.message &&
+            data.items.map((item, index) => {
+              //console.log("item:", {item})
+              //console.log("video id:", item.id.videoId)
 
-            //console.log("title:", item.snippet.title)
-            const id = item.id.videoId;
-            const kind = item.id.kind;
-            const title = item.snippet.title;
+              //console.log("title:", item.snippet.title)
+              const id = item.id.videoId;
+              const kind = item.id.kind;
+              const title = item.snippet.title;
 
-            const th = item.snippet.thumbnails.high.url;
-            const etag = item.etag;
-            //console.log("etag:", etag)
-            //console.log("id:", id)
-            //const {videoId} = item.id.videoId;
-            return (
-              <div style={{ padding: "10px 20px" }} key={id}>
-                <p>
-                  {index}-{title} - Video Id "{id}"
-                </p>
-                <p>
-                  <img src={th} />
-                </p>
-                {/* video */}
-                <div style={{ display: "flex" }}>
+              const th = item.snippet.thumbnails.high.url;
+              const etag = item.etag;
+              //console.log("etag:", etag)
+              //console.log("id:", id)
+              //const {videoId} = item.id.videoId;
+              return (
+                <div style={{ padding: "10px 20px" }} key={id}>
                   <p>
-                    <button onClick={openModal} data-id={id} className="">
-                      Open Modal
-                    </button>
+                    {index}-{title} - Video Id "{id}"
                   </p>
                   <p>
-                    <Link href={`/video/${id}`}>
-                      <a>
-                        <button>Go to Page</button>
-                      </a>
-                    </Link>
+                    <img src={th} />
                   </p>
+                  {/* video */}
+                  <div style={{ display: "flex" }}>
+                    <p>
+                      <button onClick={openModal} data-id={id} className="">
+                        Open Modal
+                      </button>
+                    </p>
+                    <p>
+                      <Link href={`/video/${id}`}>
+                        <a>
+                          <button>Go to Page</button>
+                        </a>
+                      </Link>
+                    </p>
+                  </div>
+                  {/* video end */}
                 </div>
-                {/* video end */}
-              </div>
-            );
-          })}
+              );
+            })}
         </section>
       </main>
 
