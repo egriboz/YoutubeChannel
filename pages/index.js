@@ -49,8 +49,8 @@ const Home = ({ data }) => {
     //console.log("videoId", videoId);
   }, [modal]);
 
-  const errorMessage = data.error.message;
-  console.log("data", errorMessage);
+  // const errorMessage = data.error.message;
+  // console.log("data", errorMessage);
   return (
     <div className={styles.container}>
       <Head>
@@ -100,7 +100,7 @@ const Home = ({ data }) => {
         ) : null}
 
         <section>
-          {data.error.message && (
+          {/* {data.error.message && (
             <>
               <p style={{ color: "red" }}>Error Message</p>
               <p
@@ -108,8 +108,8 @@ const Home = ({ data }) => {
                 dangerouslySetInnerHTML={{ __html: errorMessage }}
               />
             </>
-          )}
-          {!data.error.message &&
+          )} */}
+          {data &&
             data.items.map((item, index) => {
               //console.log("item:", {item})
               //console.log("video id:", item.id.videoId)
@@ -125,7 +125,7 @@ const Home = ({ data }) => {
               //console.log("id:", id)
               //const {videoId} = item.id.videoId;
               return (
-                <div style={{ padding: "10px 20px" }} key={id}>
+                <div className="loopItem" key={id}>
                   <p>
                     {index}-{title} - Video Id "{id}"
                   </p>

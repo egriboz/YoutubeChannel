@@ -17,6 +17,13 @@ a {
 .error-quota a {
   color: red;
 }
+.loopItem{
+  padding: 10px 20px;
+  margin-bottom: 15px;
+  padding: 10px 20px;
+  border: 1px solid #cdcdcd;
+  border-radius: 10px;
+}
 /* */
 .modal__bg {
   position: fixed;
