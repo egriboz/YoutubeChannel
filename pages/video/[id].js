@@ -18,6 +18,7 @@ export async function getStaticPaths() {
         revalidate: 60
       };
     }),
+    fallback: false,
   };
 }
 
