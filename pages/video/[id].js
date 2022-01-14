@@ -19,7 +19,6 @@ export async function getStaticPaths() {
       };
     }),
     fallback: false,
-    
   };
 }
 export async function getStaticProps({ params }) {
@@ -30,8 +29,8 @@ export async function getStaticProps({ params }) {
   const video = await response.json();
   return {
     props: video,
-  };
-  revalidate: 60
+  }
+  // revalidate: 60
 }
 
 export default function Video(video) {
