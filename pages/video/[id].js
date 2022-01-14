@@ -15,10 +15,11 @@ export async function getStaticPaths() {
         params: {
           id: `${item.id.videoId}`,
         },
-        revalidate: 60
+        
       };
     }),
     fallback: false,
+    
   };
 }
 
@@ -31,6 +32,7 @@ export async function getStaticProps({ params }) {
   return {
     props: video,
   };
+  revalidate: 60
 }
 
 export default function Video(video) {
