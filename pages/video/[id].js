@@ -15,9 +15,9 @@ export async function getStaticPaths() {
         params: {
           id: `${item.id.videoId}`,
         },
+        revalidate: 60
       };
     }),
-    revalidate: 60
   };
 }
 
