@@ -22,7 +22,6 @@ export async function getStaticPaths() {
     
   };
 }
-
 export async function getStaticProps({ params }) {
   // fetch single post detail
   const response = await fetch(
